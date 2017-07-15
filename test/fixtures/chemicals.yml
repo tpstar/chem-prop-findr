@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  formula: MyString
+  fw: 1.5
+  density: 1.5
+  mp: 1.5
+  bp: 1.5
+
+two:
+  name: MyString
+  formula: MyString
+  fw: 1.5
+  density: 1.5
+  mp: 1.5
+  bp: 1.5
