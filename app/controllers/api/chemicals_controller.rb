@@ -1,9 +1,9 @@
 class Api::ChemicalsController < ApplicationController
-  #before_action :find_chemical, only: [:show, :update, :destroy]
-  # def index
-  #   chemicals = Chemical.all
-  #   render json: chemicals, status: 201
-  # end
+  before_action :find_chemical, only: [:show, :update, :destroy]
+  def index
+    chemicals = Chemical.all
+    render json: chemicals, status: 201
+  end
   #
   # def create
   #   chemical = current_user.chemicals.build(chemical_params)
@@ -39,21 +39,21 @@ class Api::ChemicalsController < ApplicationController
   def search
     chemical = Chemical.new
     chemical.scrape(params[:qchemname])
-    if chemical
+    if chemical.save
       render json: chemical
     else
       render json: {error: "Could not find the chemical!", status: 404}, status: 404
     end
   end
 
-  # private
-  #
-  # def chemical_params
-  #   params.require(:chemical).permit(:name, :formula, :fw, :density, :mp, :bp)
-  # end
-  #
-  # def find_chemical
-  #   @chemical = Chemical.find_by_id(params[:id])
-  # end
+  private
+
+  def chemical_params
+    params.require(:chemical).permit(:name, :formula, :fw, :density, :mp, :bp)
+  end
+
+  def find_chemical
+    @chemical = Chemical.find_by_id(params[:id])
+  end
 
 end
