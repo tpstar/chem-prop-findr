@@ -37,12 +37,19 @@ class Api::ChemicalsController < ApplicationController
   # end
 
   def search
-    chemical = Chemical.new
-    chemical.scrape(params[:qchemname])
-    if chemical.save
+    chemical = Chemical.find_by(:name => params[:qchemname].capitalize)
+    # check if the chemical is in the database record
+    if chemical
       render json: chemical
+    # if is not in the record scrape from Aldrich website
     else
-      render json: {error: "Could not find the chemical!", status: 404}, status: 404
+      chemical = Chemical.new # create an instance of Chemical
+      chemical.scrape(params[:qchemname]) # and scrape from Aldrich website
+      if chemical.save
+        render json: chemical
+      else
+        render json: {error: "Could not find the chemical!", status: 404}, status: 404
+      end
     end
   end
 
