@@ -6,6 +6,10 @@ class Chemical < ApplicationRecord
     page = agent.get("http://www.sigmaaldrich.com/catalog/search?term=#{chem_search_term}
       &interface=All&N=0&mode=match%20partialmax&lang=en&region=US&focus=product")
 
+    if !page.at("a .name") # if there is no chemical with the searched name
+      return               # return back to Chemicals Controller with no name
+    end
+
     # get chemical name
     self.name = page.at("a .name").text
 
@@ -58,6 +62,5 @@ class Chemical < ApplicationRecord
       bp_index = more_properties.index("bp")
       self.bp = more_properties[bp_index + 2]
     end
-    #binding.pry
   end
 end
